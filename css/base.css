@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     color: #333;
-    background-color: #e0f7fa; /* Un color de fondo por defecto por si acaso */
+    background-color: #e0f7fa; 
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;

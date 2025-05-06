@@ -1,8 +1,7 @@
 body {
     background-image: url('../img/recomendaciones.jpg');
-    background-color: rgba(249, 249, 249, 0.3); /* Reemplaza con tu imagen para la página de recomendaciones */
+    background-color: rgba(249, 249, 249, 0.3); 
 }
 .seccion-contenido {
-    background-color: rgba(255, 255, 255, 0.9); /* Blanco con 80% de opacidad */
-    /* ... otros estilos ... */
+    background-color: rgba(255, 255, 255, 0.9); 
 }

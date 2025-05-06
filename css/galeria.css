@@ -1,5 +1,5 @@
 body {
-    background-image: url('../img/galeria.jpg'); /* Reemplaza con tu imagen para la página de la galería */
+    background-image: url('../img/galeria.jpg'); 
 }
 
 .galeria-imagenes {
@@ -11,40 +11,39 @@ body {
 }
 
 .galeria-imagenes img {
-    max-width: 300px; /* Ajusta el tamaño máximo de las imágenes */
+    max-width: 300px; 
     height: auto;
     border-radius: 5px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }
 .seccion-contenido {
-    background-color: rgba(255, 255, 255, 0.9); /* Blanco con 80% de opacidad */
-    /* ... otros estilos ... */
-}
-/* Estilos para la imagen ampliada */
-.galeria-imagenes img.imagen-ampliada {
-    max-width: 350px; /* O el tamaño que prefieras para la imagen ampliada */
-    height: auto;
-    position: fixed; /* Para que la imagen se centre en la ventana */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Centrar la imagen */
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
-    cursor: default; /* Cambia el cursor para indicar que se puede cerrar */
+    background-color: rgba(255, 255, 255, 0.9); 
 }
 
-/* Fondo oscuro para el resto de la página cuando la imagen está ampliada */
+.galeria-imagenes img.imagen-ampliada {
+    max-width: 350px; 
+    height: auto;
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    z-index: 1000;
+    cursor: default; 
+}
+
+
 .overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); /* Fondo negro con 80% de opacidad */
-    z-index: 999; /* Debe estar por debajo de la imagen ampliada */
-    display: none; /* Oculto por defecto */
-    cursor: pointer; /* También para cerrar al hacer clic */
+    background-color: rgba(0, 0, 0, 0.8); 
+    z-index: 999; 
+    display: none; 
+    cursor: pointer; 
 }
 
 .overlay.mostrar {
-    display: block; /* Mostrar el overlay cuando la imagen está ampliada */
+    display: block; 
 }

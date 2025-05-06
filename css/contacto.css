@@ -4,8 +4,8 @@ body {
     padding: 0;
     background-color: #e0f7fa;
     color: #333;
-    background-image: url('../img/contacto.jpg'); /* Verifica que la ruta sea correcta */
-    background-size: contain; /* Intenta con esta propiedad */
+    background-image: url('../img/contacto.jpg'); 
+    background-size: contain; 
     background-repeat: no-repeat;
     background-attachment: fixed;
     opacity: 1;

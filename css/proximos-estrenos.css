@@ -1,7 +1,6 @@
 body {
-    background-image: url('../img/proximos.jpg'); /* Reemplaza con tu imagen para la página de próximos estrenos */
+    background-image: url('../img/proximos.jpg'); 
 }
 .seccion-contenido {
-    background-color: rgba(255, 255, 255, 0.9); /* Blanco con 80% de opacidad */
-    /* ... otros estilos ... */
+    background-color: rgba(255, 255, 255, 0.9);
 }
