@@ -1,0 +1,18 @@
+body {
+    background-image: url('../img/fondo-galeria.jpg'); /* Reemplaza con tu imagen para la página de la galería */
+}
+
+.galeria-imagenes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.galeria-imagenes img {
+    max-width: 300px; /* Ajusta el tamaño máximo de las imágenes */
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}

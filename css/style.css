@@ -1,0 +1,152 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e0f7fa;
+    color: #333;
+    background-image: url('../img/fondo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    opacity: 1;
+    text-align: center;
+}
+
+.titulo-principal {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 1em;
+    border-radius: 5px;
+    margin-bottom: 1em;
+    display: inline-block;
+}
+
+.titulo-principal h1 {
+    color: white;
+    margin-top: 0;
+    margin-bottom: 0.2em;
+}
+
+.titulo-principal p {
+    color: lightyellow;
+    font-size: 1em;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+main {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.secciones-botones {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.secciones-botones button {
+    background-color: black;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8em;
+    margin: 5px;
+    font-weight: bold;
+}
+
+.secciones-botones button:hover {
+    background-color: #333;
+}
+
+.seccion-contenido {
+    background-color: white;
+    padding: 30px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    text-align: left;
+}
+
+.seccion-contenido h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.seccion-contenido ul {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+.seccion-contenido .recomendacion {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+
+.seccion-contenido button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.seccion-contenido button:hover {
+    background-color: #0056b3;
+}
+
+#principal {
+    background-color: white;
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    text-align: center;
+}
+
+.imagen-principal {
+    opacity: 1 !important;
+}
+
+#principal h2 {
+    color: #333;
+}
+
+#principal p {
+    color: #333;
+}
+
+footer {
+    background-color: #29b6f6;
+    color: white;
+    text-align: center;
+    padding: 0.2em; /* Reducimos el padding de 1em a 0.5em */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+button#miBoton {
+    background-color: #ffc107;
+    color: #333;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button#miBoton:hover {
+    background-color: #e0a800;
+}
