@@ -25,12 +25,12 @@
             <h2>Galería</h2>
             <p>Disfruta de nuestra galería de imágenes de tus animes favoritos.</p>
             <div class="galeria-imagenes">
-                <img src="img/anime_galeria1.jpg" alt="Imagen de anime 1" style="max-width: 200px; margin: 10px;">
-                <img src="img/anime_galeria2.jpg" alt="Imagen de anime 2" style="max-width: 200px; margin: 10px;">
-                <img src="img/anime_galeria3.jpg" alt="Imagen de anime 3" style="max-width: 200px; margin: 10px;">
-                <img src="img/anime_galeria4.jpg" alt="Imagen de anime 4" style="max-width: 200px; margin: 10px;">
-                <img src="img/anime_galeria5.jpg" alt="Imagen de anime 5" style="max-width: 200px; margin: 10px;">
-                <img src="img/anime_galeria6.jpg" alt="Imagen de anime 6" style="max-width: 200px; margin: 10px;">
+                <img src="img/galeria1.jpg" alt="Imagen de anime 1" style="max-width: 200px; margin: 10px;">
+                <img src="img/galeria2.jpg" alt="Imagen de anime 2" style="max-width: 200px; margin: 10px;">
+                <img src="img/galeria3.jpg" alt="Imagen de anime 3" style="max-width: 200px; margin: 10px;">
+                <img src="img/galeria4.jpg" alt="Imagen de anime 4" style="max-width: 200px; margin: 10px;">
+                <img src="img/galeria5.jpg" alt="Imagen de anime 5" style="max-width: 200px; margin: 10px;">
+                <img src="img/galeria6.jpg" alt="Imagen de anime 6" style="max-width: 200px; margin: 10px;">
                 </div>
             <button onclick="window.location.href='index.html'">Volver a la Página Principal</button>
         </section>
@@ -38,5 +38,34 @@
     <footer>
         <p>&copy; 2025 Rincón Anime - Un espacio para los amantes del anime.</p>
     </footer>
+    
+    <div class="overlay"></div>
+    
+    <script>
+        const imagenesGaleria = document.querySelectorAll('.galeria-imagenes img');
+        const overlay = document.querySelector('.overlay');
+    
+        console.log('Imágenes de la galería seleccionadas:', imagenesGaleria);
+        console.log('Overlay seleccionado:', overlay);
+    
+        imagenesGaleria.forEach(img => {
+            img.addEventListener('click', function() {
+                console.log('Se hizo clic en la imagen: ', this);
+                this.classList.toggle('imagen-ampliada');
+                overlay.classList.toggle('mostrar');
+                document.body.classList.toggle('no-scroll'); // Opcional
+            });
+        });
+    
+        overlay.addEventListener('click', function() {
+            console.log('Se hizo clic en el overlay');
+            const imagenAmpliada = document.querySelector('.galeria-imagenes img.imagen-ampliada');
+            if (imagenAmpliada) {
+                imagenAmpliada.classList.remove('imagen-ampliada');
+                this.classList.remove('mostrar');
+                document.body.classList.remove('no-scroll'); // Opcional
+            }
+        });
+    </script>
 </body>
 </html>

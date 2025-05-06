@@ -1,3 +1,10 @@
 body {
-    background-image: url('../img/fondo-noticias.jpg'); /* Reemplaza con tu imagen para la página de noticias */
+ 
+    background-image: url('../img/noticias.jpg'); /* Reemplaza con tu imagen para la página de noticias */
+    background-size: cover; 
+
+}
+.seccion-contenido {
+    background-color: rgba(255, 255, 255, 0.8); /* Blanco con 80% de opacidad */
+    /* ... otros estilos ... */
 }

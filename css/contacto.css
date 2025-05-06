@@ -1,12 +1,22 @@
 body {
-    background-image: url('../img/fondo-contacto.jpg'); /* Reemplaza con tu imagen para la página de contacto */
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e0f7fa;
+    color: #333;
+    background-image: url('../img/contacto.jpg'); /* Verifica que la ruta sea correcta */
+    background-size: contain; /* Intenta con esta propiedad */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    opacity: 1;
+    text-align: center;
 }
 
 #contacto form {
     max-width: 500px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: rgba(249, 249, 249, 0.8);
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: left;
