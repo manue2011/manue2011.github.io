@@ -20,6 +20,7 @@ const INVENTORY = [
   'JavaScript', 'Python', 'Java', 'PHP', 'HTML', 'CSS',
   'React', 'Node.js', 'Express', 'Symfony', 'Twig', 'Doctrine',
   'MySQL', 'PostgreSQL', 'MongoDB', 'Docker', 'AWS', 'Git', 'Linux',
+  'a3innuva Nómina',
 ];
 
 // difficulty: 1-5 estrellas. lang: se usa para los filtros.
