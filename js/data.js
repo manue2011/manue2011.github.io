@@ -79,9 +79,8 @@ const PROJECTS = [
     title: 'Videojuegos Retro',
     lang: 'JavaScript',
     difficulty: 2,
-    summary: 'CRUD full-stack para gestionar una colección de videojuegos clásicos, desplegado en la nube.',
-    stack: ['Node.js', 'Express', 'PostgreSQL', 'Bootstrap 5', 'Render'],
-    demo: 'https://videojuegos-retro-manu.onrender.com/',
+    summary: 'CRUD full-stack para gestionar una colección de videojuegos clásicos, con interfaz en Bootstrap.',
+    stack: ['Node.js', 'Express', 'PostgreSQL', 'Bootstrap 5'],
   },
   {
     id: 'Biblioteca_Local',
