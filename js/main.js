@@ -65,7 +65,7 @@ renderXP();
   }
 
   // Modo pro: retícula que sigue al ratón con sus coordenadas, como en una herramienta de diseño
-  let ink = '#ededed', accent = '#ff6a3d';
+  let ink = '#ededed', accent = '#4ade80';
   window.refreshBackgroundColors = () => {
     const cs = getComputedStyle(root);
     ink = cs.getPropertyValue('--text').trim() || ink;

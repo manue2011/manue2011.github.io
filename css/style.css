@@ -16,13 +16,13 @@
   --on-accent: #0c0c0c;
   --text: #ededed;
   --muted: #8f8f8f;
-  --accent: #ff6a3d;
-  --accent-2: #ff6a3d;
-  --lime: #ff6a3d;
-  --cyan: #ff6a3d;
-  --pink: #ff6a3d;
-  --violet: #ff6a3d;
-  --yellow: #ff6a3d;
+  --accent: #4ade80;
+  --accent-2: #4ade80;
+  --lime: #4ade80;
+  --cyan: #4ade80;
+  --pink: #4ade80;
+  --violet: #4ade80;
+  --yellow: #4ade80;
   --red: #ff4d4d;
   --radius: 6px;
   --font-head: 'Space Grotesk', system-ui, sans-serif;
@@ -45,13 +45,13 @@ html[data-theme="light"]:not(.game) {
   --header-bg: rgba(244, 242, 238, .9);
   --text: #161616;
   --muted: #5e5a54;
-  --accent: #c2410c;
-  --accent-2: #c2410c;
-  --lime: #c2410c;
-  --cyan: #c2410c;
-  --pink: #c2410c;
-  --violet: #c2410c;
-  --yellow: #c2410c;
+  --accent: #15803d;
+  --accent-2: #15803d;
+  --lime: #15803d;
+  --cyan: #15803d;
+  --pink: #15803d;
+  --violet: #15803d;
+  --yellow: #15803d;
   --on-accent: #ffffff;
   color-scheme: light;
 }
@@ -507,11 +507,11 @@ html.game .contact-card .k { font-family: var(--font-label); font-size: 9px; let
 @keyframes crt { 0% { transform: scale(1, .01); filter: brightness(4); } 60% { transform: scale(1, 1.05); } 100% { transform: none; filter: none; } }
 .warp.to-pro { background: #0c0c0c; }
 html[data-theme="light"] .warp.to-pro { background: #f4f2ee; }
-html[data-theme="light"] .warp.to-pro .warp-text { color: #c2410c; }
-html[data-theme="light"] .warp.to-pro .warp-bar span { background: #c2410c; }
+html[data-theme="light"] .warp.to-pro .warp-text { color: #15803d; }
+html[data-theme="light"] .warp.to-pro .warp-bar span { background: #15803d; }
 html[data-theme="light"] .warp.to-pro .warp-bar { background: rgba(0,0,0,.08); }
-.warp.to-pro .warp-text { font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: .2em; text-transform: uppercase; color: #ff6a3d; }
-.warp.to-pro .warp-bar span { background: #ff6a3d; }
+.warp.to-pro .warp-text { font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: .2em; text-transform: uppercase; color: #4ade80; }
+.warp.to-pro .warp-bar span { background: #4ade80; }
 
 .toast {
   position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 150%);
