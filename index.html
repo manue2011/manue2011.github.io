@@ -3,32 +3,47 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Manuel Zárate · Player 1</title>
-  <meta name="description" content="Portafolio de Manuel Zárate, desarrollador full-stack. Proyectos, habilidades y una zona arcade con juegos mentales.">
-  <meta property="og:title" content="Manuel Zárate · Player 1">
-  <meta property="og:description" content="Desarrollador full-stack. Mira mis misiones y pon a prueba tu cerebro en la Zona Arcade.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%230b0d17'/><rect x='3' y='3' width='4' height='10' fill='%23b8ff3b'/><rect x='9' y='3' width='4' height='10' fill='%23ff4fa0'/></svg>">
+  <title>Manuel Zárate · Full-Stack Developer</title>
+  <meta name="description" content="Portafolio de Manuel Zárate: desarrollador full-stack especializado en automatización de procesos e IA aplicada a Recursos Humanos.">
+  <meta property="og:title" content="Manuel Zárate · Full-Stack Developer">
+  <meta property="og:description" content="Desarrollo full-stack, automatización de procesos e IA aplicada a RRHH. Y un Game Mode escondido.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='4' fill='%2305070d'/><rect x='3' y='3' width='4' height='10' rx='1' fill='%235ce1ff'/><rect x='9' y='3' width='4' height='10' rx='1' fill='%238b7bff'/></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Sora:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    // Aplica el modo guardado antes de pintar para evitar parpadeos
+    (function () {
+      var m = new URLSearchParams(location.search).get('mode');
+      try { m = m || localStorage.getItem('mz-mode'); } catch (e) {}
+      if (m === 'game') document.documentElement.classList.add('game');
+    })();
+  </script>
 </head>
 <body>
-  <canvas id="stars" aria-hidden="true"></canvas>
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <div class="aurora only-pro" aria-hidden="true"></div>
 
-  <!-- HUD / navegación -->
   <header class="hud">
-    <a href="#inicio" class="hud-logo" aria-label="Inicio">MZ<span class="blink">_</span></a>
+    <a href="#inicio" class="hud-logo" aria-label="Inicio">
+      <span class="only-pro">manuel<span class="logo-dot">.</span>zárate</span>
+      <span class="only-game">MZ<span class="blink">_</span></span>
+    </a>
     <nav class="hud-nav" id="nav">
-      <a href="#personaje">Personaje</a>
-      <a href="#misiones">Misiones</a>
-      <a href="#arcade" class="hud-arcade">Arcade</a>
+      <a href="#sobre-mi" data-game="Personaje">Sobre mí</a>
+      <a href="#proyectos" data-game="Misiones">Proyectos</a>
+      <a href="#lab" data-game="Arcade" data-game-href="#arcade" class="nav-play">Lab</a>
       <a href="#contacto">Contacto</a>
     </nav>
-    <div class="hud-stats" aria-hidden="true">
+    <div class="hud-stats only-game" aria-hidden="true">
       <span>HP <b class="hp">♥♥♥</b></span>
       <span>XP <b id="xp">0000</b></span>
     </div>
+    <button class="mode-btn" id="modeBtn" type="button" aria-pressed="false">
+      <span class="mode-switch" aria-hidden="true"><span></span></span>
+      <span class="mode-label" data-game="PRO MODE">Game mode</span>
+    </button>
     <button class="hud-menu" id="menuBtn" aria-label="Abrir menú" aria-expanded="false">☰</button>
   </header>
 
@@ -36,82 +51,105 @@
     <!-- HERO -->
     <section id="inicio" class="hero">
       <div class="hero-text">
-        <p class="pixel tag">PLAYER 1 · READY</p>
+        <p class="pixel tag" data-game="PLAYER 1 · READY"><span class="pulse"></span>Disponible para nuevos retos</p>
         <h1>Manuel<br><span class="grad">Zárate</span></h1>
         <p class="role">&gt; <span id="typed"></span><span class="caret">█</span></p>
-        <p class="lead">Construyo aplicaciones web de punta a punta: APIs, bases de datos, interfaces y despliegues. Aquí no hay un portafolio aburrido: hay misiones superadas y una sala de juegos para tu cerebro.</p>
+        <p class="lead only-pro">Desarrollador full-stack que trabaja desde dentro de <strong>Recursos Humanos</strong>. Convierto procesos manuales en herramientas automáticas y aplico la <strong>inteligencia artificial</strong> a problemas reales de negocio.</p>
+        <p class="lead only-game">Construyo aplicaciones web de punta a punta y automatizo todo lo que se mueve en RRHH. Aquí no hay un portafolio aburrido: hay misiones superadas y una sala de juegos para tu cerebro.</p>
         <div class="hero-cta">
-          <a href="#misiones" class="btn btn-primary pixel">▶ PRESS START</a>
-          <a href="#arcade" class="btn btn-ghost">Ir directo al arcade</a>
+          <a href="#proyectos" class="btn btn-primary pixel" data-game="▶ PRESS START">Ver proyectos</a>
+          <a href="#contacto" class="btn btn-ghost" data-game="Ir directo al arcade" data-game-href="#arcade">Contactar</a>
         </div>
       </div>
 
       <aside class="card-player" aria-label="Ficha rápida">
         <div class="card-player-top">
           <div class="avatar">
-            <img src="https://avatars.githubusercontent.com/u/182693810?v=4" alt="Avatar de Manuel" width="88" height="88" loading="eager">
+            <img src="https://avatars.githubusercontent.com/u/182693810?v=4" alt="Avatar de Manuel" width="88" height="88">
           </div>
           <div>
-            <p class="pixel small muted">CLASE</p>
+            <p class="pixel small muted" data-game="CLASE">Perfil</p>
             <p class="card-class">Full-Stack Dev</p>
-            <p class="pixel small lime">LVL DAW·2026</p>
+            <p class="pixel small accent" data-game="LVL DAW·2026">DAW · IA · RRHH</p>
           </div>
         </div>
         <dl class="card-player-stats">
-          <div><dt>Misiones</dt><dd id="statMissions">10</dd></div>
+          <div><dt data-game="Misiones">Proyectos</dt><dd id="statMissions">10</dd></div>
           <div><dt>Repos</dt><dd id="statRepos">13</dd></div>
-          <div><dt>Arma favorita</dt><dd>JavaScript</dd></div>
-          <div><dt>Estado</dt><dd class="lime">Buscando party</dd></div>
+          <div><dt data-game="Arma favorita">Enfoque</dt><dd data-game="JavaScript">Dev + RRHH</dd></div>
+          <div><dt>Estado</dt><dd class="accent" data-game="Buscando party">Abierto a ofertas</dd></div>
         </dl>
-        <p class="pixel small muted center">↑↑↓↓←→←→ B A</p>
+        <p class="pixel small muted center only-game">↑↑↓↓←→←→ B A</p>
+        <p class="card-foot only-pro"><span class="pulse"></span>Ahora: automatizando procesos de RRHH</p>
       </aside>
+      <div class="grid-floor only-pro" aria-hidden="true"></div>
     </section>
 
-    <!-- PERSONAJE -->
-    <section id="personaje" class="section">
+    <!-- SOBRE MÍ -->
+    <section id="sobre-mi" class="section">
       <header class="section-head">
-        <p class="pixel tag">01 · FICHA DE PERSONAJE</p>
-        <h2>Quién juega esta partida</h2>
+        <p class="pixel tag" data-game="01 · FICHA DE PERSONAJE">01 — Sobre mí</p>
+        <h2 data-game="Quién juega esta partida">Código con contexto de negocio</h2>
       </header>
 
       <div class="char-grid">
         <div class="panel bio">
-          <p>Soy <strong>Manuel Zárate Marroquín</strong>, desarrollador de software formado en el <strong>Grado Superior de DAW</strong> (IES Virgen de la Paloma, 2024–2026) y actualmente <strong>Software Developer Intern</strong>.</p>
-          <p>Me gusta construir cosas que resuelven problemas reales: una plataforma SaaS para protectoras de animales, una herramienta que audita nóminas, un bot de trading con indicadores técnicos… Disfruto tanto diseñando la base de datos como peleándome con un pipeline de CI/CD.</p>
-          <p class="muted">Fun fact: en mi liga de fútbol en Java juegan Messi, Saitama, Link y Koro Sensei en el mismo equipo.</p>
+          <div class="only-pro">
+            <p>Soy <strong>Manuel Zárate Marroquín</strong>, desarrollador full-stack con un perfil poco habitual: <strong>trabajo en el área de Recursos Humanos</strong> y uso la programación para automatizar sus procesos.</p>
+            <p>Mi día a día consiste en detectar tareas manuales y repetitivas, como cruces de ficheros, revisiones de nóminas o informes, y convertirlas en herramientas que lo hacen solas, con menos errores y en una fracción del tiempo.</p>
+            <p>Me formé en el <strong>Grado Superior de Desarrollo de Aplicaciones Web</strong> y lo he completado con formación en <strong>Inteligencia Artificial</strong> y en <strong>automatización de procesos para RRHH</strong>. Me interesa justo ese cruce: software, IA y personas.</p>
+          </div>
+          <div class="only-game">
+            <p>Clase híbrida desbloqueada: <strong>Dev + RRHH</strong>. Soy <strong>Manuel Zárate Marroquín</strong> y de día trabajo en Recursos Humanos, donde automatizo cualquier tarea repetitiva que se cruce en mi camino.</p>
+            <p>Mis armas: DAW, un curso de Inteligencia Artificial y otro de automatización en RRHH. Mis enemigos: las hojas de cálculo copiadas a mano y los procesos que nadie se atreve a tocar.</p>
+            <p class="muted">Fun fact: en mi liga de fútbol en Java juegan Messi, Saitama, Link y Koro Sensei en el mismo equipo.</p>
+          </div>
 
-          <h3 class="pixel small">PARTIDAS GUARDADAS</h3>
+          <h3 class="pixel small" data-game="PARTIDAS GUARDADAS">Trayectoria</h3>
           <ol class="saves">
-            <li><span class="save-year">2026</span><span>Software Developer Intern · prácticas en empresa</span></li>
-            <li><span class="save-year">2024–26</span><span>Grado Superior en Desarrollo de Aplicaciones Web</span></li>
-            <li><span class="save-year">2025</span><span>Primeros pasos: Java, POO y bases de datos relacionales</span></li>
+            <li><span class="save-year">Actual</span><span><strong>Recursos Humanos</strong> · automatización de procesos internos</span></li>
+            <li><span class="save-year">Curso</span><span><strong>Inteligencia Artificial</strong></span></li>
+            <li><span class="save-year">Curso</span><span><strong>Automatización de procesos en RRHH</strong></span></li>
+            <li><span class="save-year">2024–26</span><span><strong>Grado Superior en DAW</strong> · IES Virgen de la Paloma</span></li>
           </ol>
         </div>
 
         <div class="panel stats">
-          <h3 class="pixel small">ATRIBUTOS</h3>
+          <h3 class="pixel small" data-game="ATRIBUTOS">Competencias</h3>
           <ul class="bars" id="bars"></ul>
 
-          <h3 class="pixel small">INVENTARIO</h3>
+          <h3 class="pixel small" data-game="INVENTARIO">Stack tecnológico</h3>
           <ul class="inventory" id="inventory"></ul>
         </div>
       </div>
     </section>
 
-    <!-- MISIONES -->
-    <section id="misiones" class="section">
+    <!-- PROYECTOS / MISIONES -->
+    <section id="proyectos" class="section">
       <header class="section-head">
-        <p class="pixel tag">02 · SELECCIONA MISIÓN</p>
-        <h2>Misiones completadas</h2>
-        <p class="muted">Proyectos reales sacados de mi GitHub. Filtra por arma (lenguaje).</p>
+        <p class="pixel tag" data-game="02 · SELECCIONA MISIÓN">02 — Proyectos</p>
+        <h2 data-game="Misiones completadas">Lo que he construido</h2>
+        <p class="muted" data-game="Proyectos reales sacados de mi GitHub. Filtra por arma (lenguaje).">Proyectos reales de mi GitHub, desde plataformas SaaS hasta herramientas internas de automatización.</p>
       </header>
 
       <div class="filters" id="filters" role="tablist" aria-label="Filtrar proyectos"></div>
       <div class="missions" id="missions"></div>
     </section>
 
-    <!-- ARCADE -->
-    <section id="arcade" class="section arcade">
+    <!-- LAB (solo modo profesional) -->
+    <section id="lab" class="section only-pro">
+      <div class="lab panel">
+        <div>
+          <p class="pixel tag">03 — Lab</p>
+          <h2>¿Te apetece un descanso?</h2>
+          <p class="muted">He escondido cinco juegos mentales hechos a mano en JavaScript puro: memoria, lógica, cálculo y puzzles. Activa el Game Mode y la web entera se transforma.</p>
+        </div>
+        <button class="btn btn-primary" type="button" id="labPlay">🎮 Activar Game Mode</button>
+      </div>
+    </section>
+
+    <!-- ARCADE (solo modo juego) -->
+    <section id="arcade" class="section arcade only-game">
       <header class="section-head">
         <p class="pixel tag pink">03 · ZONA ARCADE</p>
         <h2>Entrena tu cerebro</h2>
@@ -135,25 +173,26 @@
 
     <!-- CONTACTO -->
     <section id="contacto" class="section contact">
-      <p class="pixel tag">04 · CONTINUE?</p>
+      <p class="pixel tag" data-game="04 · CONTINUE?">04 — Contacto</p>
       <div class="continue">
-        <p class="pixel countdown" id="countdown">9</p>
-        <h2 id="continueText">¿Formamos equipo?</h2>
-        <p class="muted">Estoy abierto a oportunidades, prácticas y proyectos interesantes. Pulsa un botón antes de que llegue a cero.</p>
-        <div class="hero-cta center">
-          <a class="btn btn-primary" href="https://github.com/manue2011" target="_blank" rel="noopener">GitHub · manue2011</a>
-          <!-- Añade aquí tu LinkedIn o email si quieres que aparezcan:
-          <a class="btn btn-ghost" href="https://www.linkedin.com/in/TU_USUARIO" target="_blank" rel="noopener">LinkedIn</a>
-          <a class="btn btn-ghost" href="mailto:TU_EMAIL">Email</a>
-          -->
-        </div>
+        <p class="pixel countdown only-game" id="countdown">9</p>
+        <h2 id="continueText" data-game="¿Formamos equipo?">Hablemos</h2>
+        <p class="muted" data-game="Estoy abierto a oportunidades, prácticas y proyectos interesantes. Pulsa un botón antes de que llegue a cero.">¿Tienes un proceso que automatizar, un proyecto o una oferta? Escríbeme y te respondo lo antes posible.</p>
+        <div class="contact-links" id="contactLinks"></div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <p>© <span id="year"></span> Manuel Zárate · Hecho a mano, sin frameworks · <span class="pixel small">INSERT COIN</span></p>
+    <p>© <span id="year"></span> Manuel Zárate · <span data-game="Hecho a mano, sin frameworks · INSERT COIN">Diseñado y desarrollado a mano, sin frameworks</span></p>
   </footer>
+
+  <div class="warp" id="warp" aria-hidden="true">
+    <div class="warp-inner">
+      <p class="warp-text" id="warpText"></p>
+      <div class="warp-bar"><span></span></div>
+    </div>
+  </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 

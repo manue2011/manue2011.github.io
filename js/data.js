@@ -1,10 +1,18 @@
 // Contenido del portafolio. Edita aquí para añadir o cambiar proyectos.
 const GITHUB_USER = 'manue2011';
 
+// Deja linkedin vacío ('') para ocultar el botón
+const CONTACT = {
+  email: 'reyesmanuelzarate@gmail.com',
+  linkedin: '',
+  github: `https://github.com/${GITHUB_USER}`,
+};
+
 const SKILL_BARS = [
   { name: 'Backend', value: 85, color: 'lime' },
   { name: 'Bases de datos', value: 80, color: 'cyan' },
   { name: 'Frontend', value: 70, color: 'pink' },
+  { name: 'Automatización e IA', value: 75, color: 'violet' },
   { name: 'DevOps / Deploy', value: 60, color: 'yellow' },
 ];
 
@@ -46,7 +54,8 @@ const PROJECTS = [
     title: 'Auditoría de Nóminas',
     lang: 'Python',
     difficulty: 4,
-    summary: 'App de escritorio que cruza ficheros de operaciones, IRPF, costes y remesas para detectar anomalías en nóminas según umbrales por centro.',
+    status: 'En desarrollo',
+    summary: 'Herramienta de automatización para RRHH: app de escritorio que cruza ficheros de operaciones, IRPF, costes y remesas para detectar anomalías en nóminas según umbrales por centro.',
     stack: ['Python', 'Tkinter', 'Excel', 'JSON config'],
   },
   {

@@ -1,4 +1,7 @@
 const $ = (s, root = document) => root.querySelector(s);
+const root = document.documentElement;
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isGame = () => root.classList.contains('game');
 
 /* ---------- Almacenamiento seguro ---------- */
 const store = {
@@ -31,56 +34,101 @@ function addXP(n) {
 }
 renderXP();
 
-/* ---------- Fondo de estrellas pixeladas ---------- */
-(function stars() {
-  const canvas = $('#stars');
+/* ---------- Fondo animado: red de nodos (pro) o estrellas pixeladas (game) ---------- */
+(function background() {
+  const canvas = $('#bg');
   const ctx = canvas.getContext('2d');
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const palette = ['#b8ff3b', '#3ee6ff', '#ff4fa0', '#e9ebf8', '#e9ebf8', '#e9ebf8'];
-  let pts = [];
+  const pixelColors = ['#b8ff3b', '#3ee6ff', '#ff4fa0', '#e9ebf8', '#e9ebf8', '#e9ebf8'];
+  let pts = [], nodes = [], mouse = { x: -999, y: -999 };
+
   function resize() {
     canvas.width = innerWidth;
     canvas.height = innerHeight;
-    const count = Math.floor((innerWidth * innerHeight) / 9000);
-    pts = Array.from({ length: count }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      s: Math.random() < 0.15 ? 3 : 2,
-      v: 0.1 + Math.random() * 0.4,
-      c: palette[Math.floor(Math.random() * palette.length)],
-      a: 0.2 + Math.random() * 0.6,
+    const area = innerWidth * innerHeight;
+    pts = Array.from({ length: Math.floor(area / 9000) }, () => ({
+      x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+      s: Math.random() < 0.15 ? 3 : 2, v: 0.1 + Math.random() * 0.4,
+      c: pixelColors[Math.floor(Math.random() * pixelColors.length)], a: 0.2 + Math.random() * 0.6,
+    }));
+    nodes = Array.from({ length: Math.min(90, Math.floor(area / 16000)) }, () => ({
+      x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
     }));
   }
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  function drawGame() {
     for (const p of pts) {
       ctx.globalAlpha = p.a;
       ctx.fillStyle = p.c;
       ctx.fillRect(Math.round(p.x), Math.round(p.y), p.s, p.s);
-      if (!reduce) {
+      if (!reduceMotion) {
         p.y += p.v;
         if (p.y > canvas.height) { p.y = -4; p.x = Math.random() * canvas.width; }
       }
     }
-    if (!reduce) requestAnimationFrame(draw);
   }
+
+  function drawPro() {
+    const max = 140;
+    for (const n of nodes) {
+      if (!reduceMotion) {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+        if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+      }
+    }
+    for (let i = 0; i < nodes.length; i++) {
+      const a = nodes[i];
+      for (let j = i + 1; j < nodes.length; j++) {
+        const b = nodes[j];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < max) {
+          ctx.globalAlpha = (1 - d / max) * 0.25;
+          ctx.strokeStyle = '#5ce1ff';
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+      const dm = Math.hypot(a.x - mouse.x, a.y - mouse.y);
+      if (dm < 180) {
+        ctx.globalAlpha = (1 - dm / 180) * 0.5;
+        ctx.strokeStyle = '#8b7bff';
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+      }
+      ctx.globalAlpha = 0.7;
+      ctx.fillStyle = '#9fefff';
+      ctx.beginPath(); ctx.arc(a.x, a.y, 1.4, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+
+  function frame() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    isGame() ? drawGame() : drawPro();
+    if (!reduceMotion) requestAnimationFrame(frame);
+  }
+  window.redrawBackground = () => { if (reduceMotion) frame(); };
+
   resize();
-  addEventListener('resize', () => { resize(); if (reduce) draw(); });
-  draw();
+  addEventListener('resize', () => { resize(); if (reduceMotion) frame(); });
+  addEventListener('pointermove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  frame();
 })();
 
 /* ---------- Texto que se escribe solo ---------- */
+const ROLES = {
+  pro: ['Full-Stack Developer', 'Automatización de procesos', 'IA aplicada a RRHH', 'APIs REST y bases de datos'],
+  game: ['Desarrollador Full-Stack', 'Automatizador de RRHH', 'Domador de bugs', 'Constructor de APIs', 'Jugador nº 1'],
+};
 (function typing() {
-  const roles = ['Desarrollador Full-Stack', 'Constructor de APIs REST', 'Fan de las bases de datos', 'Domador de bugs', 'Jugador nº 1'];
   const out = $('#typed');
   let r = 0, i = 0, del = false;
   (function step() {
-    const word = roles[r];
+    const list = ROLES[isGame() ? 'game' : 'pro'];
+    const word = list[r % list.length];
     out.textContent = word.slice(0, i);
-    if (!del && i === word.length) { del = true; return setTimeout(step, 1600); }
-    if (del && i === 0) { del = false; r = (r + 1) % roles.length; }
+    if (!del && i >= word.length) { del = true; return setTimeout(step, 1700); }
+    if (del && i <= 0) { del = false; r = (r + 1) % list.length; }
     i += del ? -1 : 1;
-    setTimeout(step, del ? 35 : 70);
+    setTimeout(step, del ? 30 : 65);
   })();
 })();
 
@@ -96,7 +144,7 @@ $('#nav').addEventListener('click', (e) => {
   }
 });
 
-/* ---------- Ficha de personaje ---------- */
+/* ---------- Competencias ---------- */
 $('#bars').innerHTML = SKILL_BARS.map((b) => `
   <li>
     <div class="bar-label"><span>${b.name}</span><span>${b.value}/100</span></div>
@@ -104,7 +152,7 @@ $('#bars').innerHTML = SKILL_BARS.map((b) => `
   </li>`).join('');
 $('#inventory').innerHTML = INVENTORY.map((s) => `<li>${s}</li>`).join('');
 
-/* ---------- Misiones ---------- */
+/* ---------- Proyectos ---------- */
 const langs = ['Todas', ...new Set(PROJECTS.map((p) => p.lang))];
 let currentFilter = 'Todas';
 const repoInfo = {};
@@ -112,48 +160,49 @@ const repoInfo = {};
 function stars(n) {
   return '★'.repeat(n) + `<span class="off">${'★'.repeat(5 - n)}</span>`;
 }
-function links(p) {
-  const repo = `<a href="https://github.com/${GITHUB_USER}/${p.id}" target="_blank" rel="noopener">Código →</a>`;
-  const demo = p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener">Jugar demo ▶</a>` : '';
+function links(p, game) {
+  const repo = `<a href="https://github.com/${GITHUB_USER}/${p.id}" target="_blank" rel="noopener">${game ? 'Código →' : 'Código ↗'}</a>`;
+  const demo = p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener">${game ? 'Jugar demo ▶' : 'Ver demo ↗'}</a>` : '';
   return `<div class="mission-links">${demo}${repo}</div>`;
 }
-function updated(p) {
+function updated(p, game) {
   const d = repoInfo[p.id];
   if (!d) return '';
   const date = new Date(d).toLocaleDateString('es-ES', { month: 'short', year: 'numeric' });
-  return `<span class="mission-updated">Última partida: ${date}</span>`;
+  return `<span class="mission-updated">${game ? 'Última partida' : 'Actualizado'}: ${date}</span>`;
 }
 function missionCard(p) {
+  const game = isGame();
   const stack = `<div class="stack">${p.stack.map((s) => `<span>${s}</span>`).join('')}</div>`;
+  const right = p.status
+    ? `<span class="badge">${game ? p.status.toUpperCase() : p.status}</span>`
+    : (game ? `<span class="stars" title="Dificultad">${stars(p.difficulty)}</span>` : '');
   if (p.boss) {
     return `
     <article class="mission boss">
       <div class="boss-col">
-        <span class="boss-label">⚠ JEFE FINAL · PROYECTO DE FIN DE CICLO</span>
+        <span class="boss-label">${game ? '⚠ JEFE FINAL · PROYECTO DE FIN DE CICLO' : 'Proyecto destacado · Fin de ciclo DAW'}</span>
         <h3>${p.title}</h3>
         <p>${p.summary}</p>
-        <div class="mission-top"><span class="mission-lang">${p.lang}</span><span class="stars" title="Dificultad">${stars(p.difficulty)}</span></div>
+        <div class="mission-top"><span class="mission-lang">${p.lang}</span>${game ? `<span class="stars" title="Dificultad">${stars(p.difficulty)}</span>` : ''}</div>
         ${stack}
       </div>
       <div class="boss-col">
-        <p class="pixel small lime">BOTÍN OBTENIDO</p>
+        <p class="pixel small accent">${game ? 'BOTÍN OBTENIDO' : 'Funcionalidades clave'}</p>
         <ul class="loot">${p.loot.map((l) => `<li>${l}</li>`).join('')}</ul>
-        ${links(p)}
-        ${updated(p)}
+        ${links(p, game)}
+        ${updated(p, game)}
       </div>
     </article>`;
   }
   return `
     <article class="mission">
-      <div class="mission-top">
-        <span class="mission-lang">${p.lang}</span>
-        ${p.status ? `<span class="badge">${p.status.toUpperCase()}</span>` : `<span class="stars" title="Dificultad">${stars(p.difficulty)}</span>`}
-      </div>
+      <div class="mission-top"><span class="mission-lang">${p.lang}</span>${right}</div>
       <h3>${p.title}</h3>
       <p>${p.summary}</p>
       ${stack}
-      ${links(p)}
-      ${updated(p)}
+      ${links(p, game)}
+      ${updated(p, game)}
     </article>`;
 }
 function renderMissions() {
@@ -181,6 +230,32 @@ fetch(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100`)
   })
   .catch(() => {});
 
+/* ---------- Contacto ---------- */
+(function contact() {
+  const cards = [
+    `<a class="contact-card" href="mailto:${CONTACT.email}">
+      <span class="k">Email</span><span class="v">${CONTACT.email}</span><span class="arrow">↗</span>
+      <button class="copy-btn" type="button" data-copy="${CONTACT.email}">Copiar</button>
+    </a>`,
+  ];
+  if (CONTACT.linkedin) {
+    cards.push(`<a class="contact-card" href="${CONTACT.linkedin}" target="_blank" rel="noopener">
+      <span class="k">LinkedIn</span><span class="v">Manuel Zárate</span><span class="arrow">↗</span></a>`);
+  }
+  cards.push(`<a class="contact-card" href="${CONTACT.github}" target="_blank" rel="noopener">
+    <span class="k">GitHub</span><span class="v">@${GITHUB_USER}</span><span class="arrow">↗</span></a>`);
+  $('#contactLinks').innerHTML = cards.join('');
+  $('#contactLinks').addEventListener('click', (e) => {
+    const b = e.target.closest('.copy-btn');
+    if (!b) return;
+    e.preventDefault();
+    navigator.clipboard?.writeText(b.dataset.copy).then(
+      () => toast('Email copiado ✓'),
+      () => toast(b.dataset.copy),
+    );
+  });
+})();
+
 /* ---------- Zona Arcade ---------- */
 const recordKey = (id) => `mz-record-${id}`;
 function recordText(g) {
@@ -189,7 +264,7 @@ function recordText(g) {
 }
 function renderCabinets(activeId) {
   $('#cabinets').innerHTML = GAMES.map((g) => `
-    <button class="cabinet${g.id === activeId ? ' active' : ''}" data-game="${g.id}" style="--c:${g.color}">
+    <button class="cabinet${g.id === activeId ? ' active' : ''}" data-id="${g.id}" style="--c:${g.color}">
       <span class="cabinet-icon" aria-hidden="true">${g.icon}</span>
       <h3>${g.name}</h3>
       <p>${g.desc}</p>
@@ -236,7 +311,7 @@ function closeGame() {
 $('#cabinets').addEventListener('click', (e) => {
   const c = e.target.closest('.cabinet');
   if (!c) return;
-  openGame(c.dataset.game);
+  openGame(c.dataset.id);
   $('#screen').scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 $('#screenRestart').addEventListener('click', () => current && openGame(current.id));
@@ -252,12 +327,16 @@ const io = new IntersectionObserver((entries) => {
     io.unobserve(e.target);
   });
 }, { threshold: 0.15 });
-document.querySelectorAll('.section-head, .panel, .cabinets, .continue').forEach((n) => {
-  n.classList.add('reveal');
-  io.observe(n);
-});
+function observeReveals() {
+  document.querySelectorAll('.section-head, .panel, .cabinets, .continue').forEach((n) => {
+    if (n.classList.contains('in')) return;
+    n.classList.add('reveal');
+    io.observe(n);
+  });
+}
+observeReveals();
 
-/* ---------- CONTINUE? cuenta atrás ---------- */
+/* ---------- CONTINUE? cuenta atrás (modo juego) ---------- */
 (function countdown() {
   const out = $('#countdown');
   let n = 9, timer = null;
@@ -270,13 +349,68 @@ document.querySelectorAll('.section-head, .panel, .cabinets, .continue').forEach
           clearInterval(timer);
           out.textContent = 'GAME OVER';
           out.style.fontSize = 'clamp(28px, 7vw, 56px)';
-          $('#continueText').textContent = '…es broma. Escríbeme igualmente 😄';
+          const t = $('#continueText');
+          t.dataset.game = '…es broma. Escríbeme igualmente 😄';
+          t.textContent = t.dataset.game;
         }
       }, 1000);
     }
   }, { threshold: 0.6 });
   obs.observe(out);
 })();
+
+/* ---------- Cambio de modo ---------- */
+const swappable = document.querySelectorAll('[data-game], [data-game-href]');
+swappable.forEach((n) => {
+  if (n.dataset.game !== undefined) n.dataset.pro = n.innerHTML;
+  if (n.dataset.gameHref) n.dataset.proHref = n.getAttribute('href');
+});
+
+function applyMode(game, revealAll = true) {
+  root.classList.toggle('game', game);
+  swappable.forEach((n) => {
+    if (n.dataset.game !== undefined) {
+      n.innerHTML = game ? n.dataset.game : n.dataset.pro;
+    }
+    if (n.dataset.gameHref) n.setAttribute('href', game ? n.dataset.gameHref : n.dataset.proHref);
+  });
+  $('#modeBtn').setAttribute('aria-pressed', game);
+  $('#modeBtn').setAttribute('aria-label', game ? 'Volver al modo profesional' : 'Activar Game Mode');
+  document.title = game ? 'Manuel Zárate · Player 1' : 'Manuel Zárate · Full-Stack Developer';
+  if (!game) closeGame();
+  renderMissions();
+  window.redrawBackground();
+  if (!revealAll) return;
+  // Lo que estaba oculto no ha pasado por el observer: mostrarlo ya
+  document.querySelectorAll('.reveal').forEach((n) => {
+    n.classList.add('in');
+    n.querySelectorAll('.bar-fill').forEach((b) => (b.style.width = b.dataset.value + '%'));
+  });
+}
+
+function switchMode(game, then) {
+  store.set('mz-mode', game ? 'game' : 'pro');
+  if (reduceMotion) { applyMode(game); then && then(); return; }
+  const warp = $('#warp');
+  warp.className = `warp ${game ? 'to-game' : 'to-pro'}`;
+  $('#warpText').textContent = game ? 'LOADING GAME MODE…' : 'Iniciando modo profesional';
+  void warp.offsetWidth;
+  warp.classList.add('on');
+  if (game) { beep(523, 90); setTimeout(() => beep(784, 160), 100); }
+  setTimeout(() => {
+    applyMode(game);
+    if (then) then(); else scrollTo({ top: 0, behavior: 'instant' });
+  }, 700);
+  setTimeout(() => warp.classList.remove('on'), 1050);
+  if (game) setTimeout(() => toast('PLAYER 1 ENTRA EN JUEGO'), 1200);
+}
+
+$('#modeBtn').addEventListener('click', () => switchMode(!isGame()));
+$('#labPlay').addEventListener('click', () =>
+  switchMode(true, () => $('#arcade').scrollIntoView({ behavior: 'instant', block: 'start' })));
+
+// Estado inicial (el script del <head> ya puso la clase si tocaba)
+applyMode(isGame(), false);
 
 /* ---------- Código Konami ---------- */
 (function konami() {
@@ -287,7 +421,8 @@ document.querySelectorAll('.section-head, .panel, .cabinets, .continue').forEach
     pos = k === code[pos] ? pos + 1 : (k === code[0] ? 1 : 0);
     if (pos === code.length) {
       pos = 0;
-      document.body.classList.toggle('konami');
+      if (!isGame()) { switchMode(true); return; }
+      root.classList.toggle('konami');
       addXP(999);
       toast('🎮 MODO SECRETO · +999 XP');
     }
