@@ -11,6 +11,9 @@
   --line: #262626;
   --line-strong: #383838;
   --grid: rgba(255, 255, 255, .035);
+  --track: rgba(255, 255, 255, .06);
+  --header-bg: rgba(12, 12, 12, .88);
+  --on-accent: #0c0c0c;
   --text: #ededed;
   --muted: #8f8f8f;
   --accent: #ff6a3d;
@@ -28,6 +31,29 @@
   --mono: 'JetBrains Mono', ui-monospace, monospace;
   --grad: linear-gradient(var(--accent), var(--accent));
   color-scheme: dark;
+}
+/* Modo claro (solo en el modo profesional) */
+html[data-theme="light"]:not(.game) {
+  --bg: #f4f2ee;
+  --bg-2: #ece9e3;
+  --panel: #fbfaf8;
+  --panel-2: #efece6;
+  --line: #dcd7ce;
+  --line-strong: #c4beb3;
+  --grid: rgba(0, 0, 0, .05);
+  --track: rgba(0, 0, 0, .08);
+  --header-bg: rgba(244, 242, 238, .9);
+  --text: #161616;
+  --muted: #5e5a54;
+  --accent: #c2410c;
+  --accent-2: #c2410c;
+  --lime: #c2410c;
+  --cyan: #c2410c;
+  --pink: #c2410c;
+  --violet: #c2410c;
+  --yellow: #c2410c;
+  --on-accent: #ffffff;
+  color-scheme: light;
 }
 html.game {
   --bg: #0b0d17;
@@ -108,7 +134,7 @@ html.game .small { font-size: 10px; }
   position: sticky; top: 0; z-index: 50;
   display: flex; align-items: center; gap: 20px;
   padding: 14px clamp(16px, 4vw, 48px);
-  background: rgba(12, 12, 12, .88);
+  background: var(--header-bg);
   backdrop-filter: blur(14px) saturate(140%);
   border-bottom: 1px solid var(--line);
 }
@@ -129,6 +155,18 @@ html.game .hud-nav a.nav-play { color: var(--pink); }
 .hud-stats .hp { color: var(--pink); }
 .hud-menu { display: none; background: none; border: 1px solid var(--line); border-radius: 8px; padding: 4px 10px; font-size: 18px; cursor: pointer; }
 
+/* Botón de tema claro/oscuro (solo pro) */
+.theme-btn {
+  display: inline-grid; place-items: center; flex: none;
+  width: 36px; height: 36px; border-radius: 4px; cursor: pointer;
+  border: 1px solid var(--line-strong); background: var(--panel); color: var(--text);
+  transition: border-color .2s, color .2s;
+}
+.theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+.theme-btn svg { width: 18px; height: 18px; }
+.theme-btn .icon-moon, html[data-theme="light"] .theme-btn .icon-sun { display: none; }
+html[data-theme="light"] .theme-btn .icon-moon { display: block; }
+
 /* Botón de modo */
 .mode-btn {
   display: inline-flex; align-items: center; gap: 10px; flex: none;
@@ -138,7 +176,7 @@ html.game .hud-nav a.nav-play { color: var(--pink); }
   transition: border-color .2s, box-shadow .2s;
 }
 .mode-btn:hover { border-color: var(--accent); }
-.mode-switch { width: 34px; height: 20px; border-radius: 3px; background: rgba(255,255,255,.1); position: relative; transition: background .25s; }
+.mode-switch { width: 34px; height: 20px; border-radius: 3px; background: var(--track); position: relative; transition: background .25s; }
 .mode-switch span { position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 2px; background: var(--text); transition: transform .25s, background .25s; }
 html.game .mode-btn { font-family: var(--font-label); font-size: 9px; border-radius: 8px; border: 2px solid var(--pink); box-shadow: 3px 3px 0 var(--pink); background: var(--bg); }
 html.game .mode-btn:hover { box-shadow: 5px 5px 0 var(--pink); }
@@ -153,7 +191,7 @@ html.game .mode-switch span { transform: translateX(14px); background: #10140a; 
   border: 1px solid transparent; transition: transform .15s, box-shadow .2s, background .2s, border-color .2s, color .2s;
 }
 .btn.pixel { font-family: var(--font-body); text-transform: none; letter-spacing: 0; }
-.btn-primary { background: var(--accent); color: #0c0c0c; }
+.btn-primary { background: var(--accent); color: var(--on-accent); }
 .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 var(--text); }
 .btn-ghost { background: transparent; color: var(--text); border-color: var(--line-strong); }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
@@ -272,7 +310,7 @@ html.game .skill[open] .chev::before { content: '\25BC'; }
 html.game .skill summary:hover .bar-label > span:first-child { color: var(--lime); }
 .bar-label { display: flex; justify-content: space-between; font-size: 15px; margin-bottom: 8px; }
 .bar-label span:last-child { font-family: var(--mono); color: var(--muted); font-size: 13px; }
-.bar-track { height: 6px; background: rgba(255,255,255,.06); border-radius: 1px; overflow: hidden; }
+.bar-track { height: 6px; background: var(--track); border-radius: 1px; overflow: hidden; }
 .bar-fill {
   height: 100%; width: 0; border-radius: inherit; transition: width 1.4s cubic-bezier(.2,.8,.2,1);
   background: currentColor;
@@ -468,6 +506,10 @@ html.game .contact-card .k { font-family: var(--font-label); font-size: 9px; let
 .warp.to-game.on .warp-inner { animation: crt .35s ease-out; }
 @keyframes crt { 0% { transform: scale(1, .01); filter: brightness(4); } 60% { transform: scale(1, 1.05); } 100% { transform: none; filter: none; } }
 .warp.to-pro { background: #0c0c0c; }
+html[data-theme="light"] .warp.to-pro { background: #f4f2ee; }
+html[data-theme="light"] .warp.to-pro .warp-text { color: #c2410c; }
+html[data-theme="light"] .warp.to-pro .warp-bar span { background: #c2410c; }
+html[data-theme="light"] .warp.to-pro .warp-bar { background: rgba(0,0,0,.08); }
 .warp.to-pro .warp-text { font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: .2em; text-transform: uppercase; color: #ff6a3d; }
 .warp.to-pro .warp-bar span { background: #ff6a3d; }
 
@@ -498,7 +540,7 @@ html.konami main, html.konami #bg { animation: hue 3s linear infinite; }
 @media (max-width: 760px) {
   .hud { gap: 10px; }
   .hud-menu { display: block; }
-  .mode-btn { margin-left: auto; }
+  .theme-btn { margin-left: auto; }
   .hud-nav {
     position: absolute; top: 100%; left: 0; right: 0;
     flex-direction: column; gap: 0; padding: 8px 16px 16px;
@@ -512,6 +554,7 @@ html.konami main, html.konami #bg { animation: hue 3s linear infinite; }
   .code-slot { width: 46px; height: 54px; }
 }
 @media (max-width: 420px) {
+  .theme-btn { width: 32px; height: 32px; }
   .hud-logo { font-size: 16px; }
   .mode-btn { padding: 6px 10px 6px 6px; gap: 7px; font-size: 12px; }
   .mode-switch { width: 28px; height: 18px; }

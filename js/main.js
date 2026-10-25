@@ -65,18 +65,25 @@ renderXP();
   }
 
   // Modo pro: retícula que sigue al ratón con sus coordenadas, como en una herramienta de diseño
+  let ink = '#ededed', accent = '#ff6a3d';
+  window.refreshBackgroundColors = () => {
+    const cs = getComputedStyle(root);
+    ink = cs.getPropertyValue('--text').trim() || ink;
+    accent = cs.getPropertyValue('--accent').trim() || accent;
+  };
+  window.refreshBackgroundColors();
   function drawPro() {
     if (mouse.x < 0) return;
     const x = Math.round(mouse.x) + 0.5, y = Math.round(mouse.y) + 0.5;
     ctx.globalAlpha = 0.09;
-    ctx.strokeStyle = '#ededed';
+    ctx.strokeStyle = ink;
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height);
     ctx.moveTo(0, y); ctx.lineTo(canvas.width, y);
     ctx.stroke();
     ctx.globalAlpha = 0.75;
-    ctx.fillStyle = '#ff6a3d';
+    ctx.fillStyle = accent;
     ctx.font = '11px "JetBrains Mono", monospace';
     const label = `x ${String(Math.round(mouse.x)).padStart(4, '0')}  y ${String(Math.round(mouse.y)).padStart(4, '0')}`;
     ctx.fillText(label, Math.min(x + 12, canvas.width - 120), Math.max(y - 12, 14));
@@ -368,6 +375,7 @@ function applyMode(game, revealAll = true) {
   document.title = game ? 'Manuel Zárate · Player 1' : 'Manuel Zárate · Full-Stack Developer';
   if (!game) closeGame();
   renderMissions();
+  window.refreshBackgroundColors();
   window.redrawBackground();
   if (!revealAll) return;
   // Lo que estaba oculto no ha pasado por el observer: mostrarlo ya
@@ -400,6 +408,20 @@ $('#labPlay').addEventListener('click', () =>
 
 // Estado inicial (el script del <head> ya puso la clase si tocaba)
 applyMode(isGame(), false);
+
+/* ---------- Tema claro / oscuro (modo profesional) ---------- */
+function applyTheme(theme) {
+  root.setAttribute('data-theme', theme);
+  $('#themeBtn').setAttribute('aria-label', theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro');
+  window.refreshBackgroundColors();
+  window.redrawBackground();
+}
+$('#themeBtn').addEventListener('click', () => {
+  const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  store.set('mz-theme', next);
+  applyTheme(next);
+});
+applyTheme(root.getAttribute('data-theme') || 'dark');
 
 /* ---------- Código Konami ---------- */
 (function konami() {
