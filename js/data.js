@@ -4,7 +4,7 @@ const GITHUB_USER = 'manue2011';
 // Deja linkedin vacío ('') para ocultar el botón
 const CONTACT = {
   email: 'reyesmanuelzarate@gmail.com',
-  linkedin: '',
+  linkedin: 'https://www.linkedin.com/in/reyes-manuel-z%C3%A1rate-marroqu%C3%ADn-a3ab972b9/',
   github: `https://github.com/${GITHUB_USER}`,
 };
 

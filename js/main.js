@@ -116,7 +116,7 @@ renderXP();
 /* ---------- Texto que se escribe solo ---------- */
 const ROLES = {
   pro: ['Full-Stack Developer', 'Automatización de procesos', 'IA aplicada a RRHH', 'APIs REST y bases de datos'],
-  game: ['Desarrollador Full-Stack', 'Automatizador de RRHH', 'Domador de bugs', 'Constructor de APIs', 'Jugador nº 1'],
+  game: ['Full-Stack Developer', 'Automatización de procesos', 'IA aplicada a RRHH', 'Player 1 · Ready'],
 };
 (function typing() {
   const out = $('#typed');
