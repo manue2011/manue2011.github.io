@@ -34,12 +34,12 @@ function addXP(n) {
 }
 renderXP();
 
-/* ---------- Fondo animado: red de nodos (pro) o estrellas pixeladas (game) ---------- */
+/* ---------- Fondo: retícula del cursor (pro) o estrellas pixeladas (game) ---------- */
 (function background() {
   const canvas = $('#bg');
   const ctx = canvas.getContext('2d');
   const pixelColors = ['#b8ff3b', '#3ee6ff', '#ff4fa0', '#e9ebf8', '#e9ebf8', '#e9ebf8'];
-  let pts = [], nodes = [], mouse = { x: -999, y: -999 };
+  let pts = [], mouse = { x: -1, y: -1 };
 
   function resize() {
     canvas.width = innerWidth;
@@ -49,10 +49,6 @@ renderXP();
       x: Math.random() * canvas.width, y: Math.random() * canvas.height,
       s: Math.random() < 0.15 ? 3 : 2, v: 0.1 + Math.random() * 0.4,
       c: pixelColors[Math.floor(Math.random() * pixelColors.length)], a: 0.2 + Math.random() * 0.6,
-    }));
-    nodes = Array.from({ length: Math.min(90, Math.floor(area / 16000)) }, () => ({
-      x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
     }));
   }
 
@@ -68,36 +64,22 @@ renderXP();
     }
   }
 
+  // Modo pro: retícula que sigue al ratón con sus coordenadas, como en una herramienta de diseño
   function drawPro() {
-    const max = 140;
-    for (const n of nodes) {
-      if (!reduceMotion) {
-        n.x += n.vx; n.y += n.vy;
-        if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
-        if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
-      }
-    }
-    for (let i = 0; i < nodes.length; i++) {
-      const a = nodes[i];
-      for (let j = i + 1; j < nodes.length; j++) {
-        const b = nodes[j];
-        const d = Math.hypot(a.x - b.x, a.y - b.y);
-        if (d < max) {
-          ctx.globalAlpha = (1 - d / max) * 0.25;
-          ctx.strokeStyle = '#5ce1ff';
-          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-        }
-      }
-      const dm = Math.hypot(a.x - mouse.x, a.y - mouse.y);
-      if (dm < 180) {
-        ctx.globalAlpha = (1 - dm / 180) * 0.5;
-        ctx.strokeStyle = '#8b7bff';
-        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
-      }
-      ctx.globalAlpha = 0.7;
-      ctx.fillStyle = '#9fefff';
-      ctx.beginPath(); ctx.arc(a.x, a.y, 1.4, 0, Math.PI * 2); ctx.fill();
-    }
+    if (mouse.x < 0) return;
+    const x = Math.round(mouse.x) + 0.5, y = Math.round(mouse.y) + 0.5;
+    ctx.globalAlpha = 0.09;
+    ctx.strokeStyle = '#ededed';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height);
+    ctx.moveTo(0, y); ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+    ctx.globalAlpha = 0.75;
+    ctx.fillStyle = '#ff6a3d';
+    ctx.font = '11px "JetBrains Mono", monospace';
+    const label = `x ${String(Math.round(mouse.x)).padStart(4, '0')}  y ${String(Math.round(mouse.y)).padStart(4, '0')}`;
+    ctx.fillText(label, Math.min(x + 12, canvas.width - 120), Math.max(y - 12, 14));
   }
 
   function frame() {
@@ -109,7 +91,12 @@ renderXP();
 
   resize();
   addEventListener('resize', () => { resize(); if (reduceMotion) frame(); });
-  addEventListener('pointermove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    mouse.x = e.clientX; mouse.y = e.clientY;
+    if (reduceMotion) frame();
+  });
+  document.addEventListener('mouseleave', () => { mouse.x = -1; if (reduceMotion) frame(); });
   frame();
 })();
 
@@ -144,13 +131,15 @@ $('#nav').addEventListener('click', (e) => {
   }
 });
 
-/* ---------- Competencias ---------- */
+/* ---------- Competencias (desplegables) ---------- */
 $('#bars').innerHTML = SKILL_BARS.map((b) => `
-  <li>
-    <div class="bar-label"><span>${b.name}</span><span>${b.value}/100</span></div>
-    <div class="bar-track"><div class="bar-fill" style="color:var(--${b.color})" data-value="${b.value}"></div></div>
-  </li>`).join('');
-$('#inventory').innerHTML = INVENTORY.map((s) => `<li>${s}</li>`).join('');
+  <details class="skill">
+    <summary>
+      <div class="bar-label"><span>${b.name}</span><span>${b.value}/100 <span class="chev" aria-hidden="true"></span></span></div>
+      <div class="bar-track"><div class="bar-fill" style="color:var(--${b.color})" data-value="${b.value}"></div></div>
+    </summary>
+    <ul class="inventory">${b.techs.map((t) => `<li>${t}</li>`).join('')}</ul>
+  </details>`).join('');
 
 /* ---------- Proyectos ---------- */
 const langs = ['Todas', ...new Set(PROJECTS.map((p) => p.lang))];

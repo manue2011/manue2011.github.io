@@ -9,18 +9,16 @@ const CONTACT = {
 };
 
 const SKILL_BARS = [
-  { name: 'Backend', value: 85, color: 'lime' },
-  { name: 'Bases de datos', value: 80, color: 'cyan' },
-  { name: 'Frontend', value: 70, color: 'pink' },
-  { name: 'Automatización e IA', value: 75, color: 'violet' },
-  { name: 'DevOps / Deploy', value: 60, color: 'yellow' },
-];
-
-const INVENTORY = [
-  'JavaScript', 'Python', 'Java', 'PHP', 'HTML', 'CSS',
-  'React', 'Node.js', 'Express', 'Symfony', 'Twig', 'Doctrine',
-  'MySQL', 'PostgreSQL', 'MongoDB', 'Docker', 'AWS', 'Git', 'Linux',
-  'a3innuva Nómina',
+  { name: 'Backend', value: 85, color: 'lime',
+    techs: ['Node.js', 'Express', 'PHP', 'Symfony', 'Java', 'Python', 'APIs REST', 'JWT'] },
+  { name: 'Bases de datos', value: 80, color: 'cyan',
+    techs: ['MySQL', 'PostgreSQL', 'MongoDB', 'Sequelize', 'Doctrine ORM', 'SQL'] },
+  { name: 'Frontend', value: 70, color: 'pink',
+    techs: ['JavaScript', 'React', 'HTML', 'CSS', 'Twig', 'Bootstrap'] },
+  { name: 'Automatización e IA', value: 75, color: 'violet',
+    techs: ['Python', 'Tkinter', 'Excel', 'a3innuva Nómina', 'Gmail API', 'IA aplicada'] },
+  { name: 'DevOps / Deploy', value: 60, color: 'yellow',
+    techs: ['Git', 'GitHub Actions', 'Docker', 'AWS', 'Linux', 'Vercel', 'Render', 'Fly.io'] },
 ];
 
 // difficulty: 1-5 estrellas. lang: se usa para los filtros.

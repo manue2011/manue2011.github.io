@@ -7,10 +7,10 @@
   <meta name="description" content="Portafolio de Manuel Zárate: desarrollador full-stack especializado en automatización de procesos e IA aplicada a Recursos Humanos.">
   <meta property="og:title" content="Manuel Zárate · Full-Stack Developer">
   <meta property="og:description" content="Desarrollo full-stack, automatización de procesos e IA aplicada a RRHH. Y un Game Mode escondido.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='4' fill='%2305070d'/><rect x='3' y='3' width='4' height='10' rx='1' fill='%235ce1ff'/><rect x='9' y='3' width='4' height='10' rx='1' fill='%238b7bff'/></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='2' fill='%230c0c0c'/><rect x='3' y='3' width='4' height='10' fill='%23ededed'/><rect x='9' y='3' width='4' height='10' fill='%23ff6a3d'/></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Sora:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script>
     // Aplica el modo guardado antes de pintar para evitar parpadeos
@@ -23,7 +23,6 @@
 </head>
 <body>
   <canvas id="bg" aria-hidden="true"></canvas>
-  <div class="aurora only-pro" aria-hidden="true"></div>
 
   <header class="hud">
     <a href="#inicio" class="hud-logo" aria-label="Inicio">
@@ -82,7 +81,6 @@
         <p class="pixel small muted center only-game">↑↑↓↓←→←→ B A</p>
         <p class="card-foot only-pro"><span class="pulse"></span>Ahora: automatizando procesos de RRHH</p>
       </aside>
-      <div class="grid-floor only-pro" aria-hidden="true"></div>
     </section>
 
     <!-- SOBRE MÍ -->
@@ -102,7 +100,7 @@
 
           <h3 class="pixel small" data-game="PARTIDAS GUARDADAS">Trayectoria</h3>
           <ol class="saves">
-            <li><span class="save-year">Jul 2026 –</span><span><strong>Técnico de RRHH</strong> · Grupo Auro · nóminas, Seguridad Social y automatización</span></li>
+            <li><span class="save-year">Actual</span><span><strong>Técnico de RRHH</strong> · Grupo Auro · desde julio de 2026</span></li>
             <li><span class="save-year">2026</span><span><strong>Desarrollador Web Backend (prácticas)</strong> · Grupo Auro</span></li>
             <li><span class="save-year">Curso</span><span><strong>Inteligencia Artificial</strong> · Big School</span></li>
             <li><span class="save-year">Curso</span><span><strong>Transformación Digital en Recursos Humanos</strong> · Escuela para Empresas</span></li>
@@ -111,11 +109,9 @@
         </div>
 
         <div class="panel stats">
-          <h3 class="pixel small" data-game="ATRIBUTOS">Competencias</h3>
-          <ul class="bars" id="bars"></ul>
-
-          <h3 class="pixel small" data-game="INVENTARIO">Stack tecnológico</h3>
-          <ul class="inventory" id="inventory"></ul>
+          <h3 class="pixel small" data-game="ATRIBUTOS Y EQUIPO">Competencias y tecnologías</h3>
+          <p class="bars-hint muted" data-game="Pulsa un atributo para ver su equipo.">Pulsa cada área para ver las tecnologías que uso.</p>
+          <div class="bars" id="bars"></div>
         </div>
       </div>
     </section>
