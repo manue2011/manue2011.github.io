@@ -1,37 +1,164 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Rincón Anime: Noticias, Recomendaciones y más</title>
-        <link rel="stylesheet" href="css/base.css">
-        <link rel="stylesheet" href="css/principal.css">
-    </head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manuel Zárate · Player 1</title>
+  <meta name="description" content="Portafolio de Manuel Zárate, desarrollador full-stack. Proyectos, habilidades y una zona arcade con juegos mentales.">
+  <meta property="og:title" content="Manuel Zárate · Player 1">
+  <meta property="og:description" content="Desarrollador full-stack. Mira mis misiones y pon a prueba tu cerebro en la Zona Arcade.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%230b0d17'/><rect x='3' y='3' width='4' height='10' fill='%23b8ff3b'/><rect x='9' y='3' width='4' height='10' fill='%23ff4fa0'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
 <body>
-    <div class="titulo-principal">
-        <h1>¡Bienvenidos al Rincón Anime!</h1>
-        <p>Tu portal para las últimas noticias, recomendaciones y todo sobre el mundo del anime.</p>
+  <canvas id="stars" aria-hidden="true"></canvas>
+
+  <!-- HUD / navegación -->
+  <header class="hud">
+    <a href="#inicio" class="hud-logo" aria-label="Inicio">MZ<span class="blink">_</span></a>
+    <nav class="hud-nav" id="nav">
+      <a href="#personaje">Personaje</a>
+      <a href="#misiones">Misiones</a>
+      <a href="#arcade" class="hud-arcade">Arcade</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="hud-stats" aria-hidden="true">
+      <span>HP <b class="hp">♥♥♥</b></span>
+      <span>XP <b id="xp">0000</b></span>
     </div>
-    <main>
-        <div class="secciones-botones">
-            <button onclick="window.location.href='noticias.html'">Noticias</button>
-            <button onclick="window.location.href='recomendaciones.html'">Recomendaciones</button>
-            <button onclick="window.location.href='proximos-estrenos.html'">Próximos Estrenos</button>
-            <button onclick="window.location.href='galeria.html'">Galería</button>
-            <button onclick="window.location.href='contacto.html'">Contacto</button>
+    <button class="hud-menu" id="menuBtn" aria-label="Abrir menú" aria-expanded="false">☰</button>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="inicio" class="hero">
+      <div class="hero-text">
+        <p class="pixel tag">PLAYER 1 · READY</p>
+        <h1>Manuel<br><span class="grad">Zárate</span></h1>
+        <p class="role">&gt; <span id="typed"></span><span class="caret">█</span></p>
+        <p class="lead">Construyo aplicaciones web de punta a punta: APIs, bases de datos, interfaces y despliegues. Aquí no hay un portafolio aburrido: hay misiones superadas y una sala de juegos para tu cerebro.</p>
+        <div class="hero-cta">
+          <a href="#misiones" class="btn btn-primary pixel">▶ PRESS START</a>
+          <a href="#arcade" class="btn btn-ghost">Ir directo al arcade</a>
+        </div>
+      </div>
+
+      <aside class="card-player" aria-label="Ficha rápida">
+        <div class="card-player-top">
+          <div class="avatar">
+            <img src="https://avatars.githubusercontent.com/u/182693810?v=4" alt="Avatar de Manuel" width="88" height="88" loading="eager">
+          </div>
+          <div>
+            <p class="pixel small muted">CLASE</p>
+            <p class="card-class">Full-Stack Dev</p>
+            <p class="pixel small lime">LVL DAW·2026</p>
+          </div>
+        </div>
+        <dl class="card-player-stats">
+          <div><dt>Misiones</dt><dd id="statMissions">10</dd></div>
+          <div><dt>Repos</dt><dd id="statRepos">13</dd></div>
+          <div><dt>Arma favorita</dt><dd>JavaScript</dd></div>
+          <div><dt>Estado</dt><dd class="lime">Buscando party</dd></div>
+        </dl>
+        <p class="pixel small muted center">↑↑↓↓←→←→ B A</p>
+      </aside>
+    </section>
+
+    <!-- PERSONAJE -->
+    <section id="personaje" class="section">
+      <header class="section-head">
+        <p class="pixel tag">01 · FICHA DE PERSONAJE</p>
+        <h2>Quién juega esta partida</h2>
+      </header>
+
+      <div class="char-grid">
+        <div class="panel bio">
+          <p>Soy <strong>Manuel Zárate Marroquín</strong>, desarrollador de software formado en el <strong>Grado Superior de DAW</strong> (IES Virgen de la Paloma, 2024–2026) y actualmente <strong>Software Developer Intern</strong>.</p>
+          <p>Me gusta construir cosas que resuelven problemas reales: una plataforma SaaS para protectoras de animales, una herramienta que audita nóminas, un bot de trading con indicadores técnicos… Disfruto tanto diseñando la base de datos como peleándome con un pipeline de CI/CD.</p>
+          <p class="muted">Fun fact: en mi liga de fútbol en Java juegan Messi, Saitama, Link y Koro Sensei en el mismo equipo.</p>
+
+          <h3 class="pixel small">PARTIDAS GUARDADAS</h3>
+          <ol class="saves">
+            <li><span class="save-year">2026</span><span>Software Developer Intern · prácticas en empresa</span></li>
+            <li><span class="save-year">2024–26</span><span>Grado Superior en Desarrollo de Aplicaciones Web</span></li>
+            <li><span class="save-year">2025</span><span>Primeros pasos: Java, POO y bases de datos relacionales</span></li>
+          </ol>
         </div>
 
-        <section id="principal">
-            <h2>¡Descubre el Fascinante Mundo del Anime!</h2>
-            <img src="img/anime1.webp" alt="Imagen destacada de anime" style="max-width: 500px;" class="imagen-principal">
-            <p>Sumérgete en un universo lleno de historias emocionantes, personajes inolvidables y animaciones espectaculares. En nuestro rincón encontrarás las últimas noticias, recomendaciones de series y películas, información sobre próximos estrenos y una galería de imágenes para los amantes del anime.</p>
-            <p>¿Listo para explorar nuevos mundos y vivir aventuras épicas?</p>
-            <button id="miBoton" onclick="window.location.href='top-animes.html'">Ver el Top 10 Animes 2025</button>
-            <p id="mensaje"></p>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Rincón Anime - Un espacio para los amantes del anime.</p>
-    </footer>
+        <div class="panel stats">
+          <h3 class="pixel small">ATRIBUTOS</h3>
+          <ul class="bars" id="bars"></ul>
+
+          <h3 class="pixel small">INVENTARIO</h3>
+          <ul class="inventory" id="inventory"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISIONES -->
+    <section id="misiones" class="section">
+      <header class="section-head">
+        <p class="pixel tag">02 · SELECCIONA MISIÓN</p>
+        <h2>Misiones completadas</h2>
+        <p class="muted">Proyectos reales sacados de mi GitHub. Filtra por arma (lenguaje).</p>
+      </header>
+
+      <div class="filters" id="filters" role="tablist" aria-label="Filtrar proyectos"></div>
+      <div class="missions" id="missions"></div>
+    </section>
+
+    <!-- ARCADE -->
+    <section id="arcade" class="section arcade">
+      <header class="section-head">
+        <p class="pixel tag pink">03 · ZONA ARCADE</p>
+        <h2>Entrena tu cerebro</h2>
+        <p class="muted">Un descanso entre tanto código. Cinco juegos mentales hechos a mano en JavaScript puro. Tus récords se guardan en este navegador.</p>
+      </header>
+
+      <div class="cabinets" id="cabinets"></div>
+
+      <div class="screen" id="screen" hidden>
+        <div class="screen-bar">
+          <p class="pixel small" id="screenTitle">JUEGO</p>
+          <div class="screen-actions">
+            <button class="btn btn-ghost btn-sm" id="screenRestart">↻ Reiniciar</button>
+            <button class="btn btn-ghost btn-sm" id="screenClose" aria-label="Cerrar juego">✕</button>
+          </div>
+        </div>
+        <p class="screen-help" id="screenHelp"></p>
+        <div class="screen-body" id="screenBody"></div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto" class="section contact">
+      <p class="pixel tag">04 · CONTINUE?</p>
+      <div class="continue">
+        <p class="pixel countdown" id="countdown">9</p>
+        <h2 id="continueText">¿Formamos equipo?</h2>
+        <p class="muted">Estoy abierto a oportunidades, prácticas y proyectos interesantes. Pulsa un botón antes de que llegue a cero.</p>
+        <div class="hero-cta center">
+          <a class="btn btn-primary" href="https://github.com/manue2011" target="_blank" rel="noopener">GitHub · manue2011</a>
+          <!-- Añade aquí tu LinkedIn o email si quieres que aparezcan:
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/TU_USUARIO" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn btn-ghost" href="mailto:TU_EMAIL">Email</a>
+          -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Manuel Zárate · Hecho a mano, sin frameworks · <span class="pixel small">INSERT COIN</span></p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/games.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
